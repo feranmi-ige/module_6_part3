@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transactions
+  labels:
+    app: transactions
+spec:
+  replicas: 2
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: transactions
+  template:
+    metadata:
+      labels:
+        app: transactions
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: transactions
+          image: ghcr.io/feranmi-a/module_6_part3-transactions:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: mongodb://mongo-transactions:27017/transactions_db
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 8
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 25
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

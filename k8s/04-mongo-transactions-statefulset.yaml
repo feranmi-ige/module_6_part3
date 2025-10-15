@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-transactions
+  labels:
+    app: mongo-transactions
+spec:
+  serviceName: mongo-transactions
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-transactions
+  template:
+    metadata:
+      labels:
+        app: mongo-transactions
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.4.18
+          ports:
+            - containerPort: 27017
+              name: mongo
+          args: ["--bind_ip_all"]
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          volumeMounts:
+            - name: mongo-transactions-data
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-transactions-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

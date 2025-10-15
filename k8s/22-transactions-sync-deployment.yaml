@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transactions-sync
+  labels:
+    app: transactions-sync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transactions-sync
+  template:
+    metadata:
+      labels:
+        app: transactions-sync
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: syncer
+          image: ghcr.io/feranmi-a/module_6_part3-syncer:latest
+          env:
+            - name: SRC_URI
+              value: mongodb://mongo-backend:27017
+            - name: SRC_DB
+              value: bank_app
+            - name: DEST_URI
+              value: mongodb://mongo-transactions:27017
+            - name: DEST_DB
+              value: transactions_db
+            - name: INTERVAL_SECONDS
+              value: "300"
+          resources:
+            requests:
+              cpu: "25m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
