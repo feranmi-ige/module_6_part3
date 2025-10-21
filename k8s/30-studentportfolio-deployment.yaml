@@ -15,8 +15,8 @@ spec:
       labels:
         app: studentportfolio
     spec:
-      imagePullSecrets:
-        - name: ghcr-secret
+      # imagePullSecrets:
+      #   - name: ghcr-secret
       containers:
         - name: studentportfolio
           image: ghcr.io/feranmi-a/module_6_part3-studentportfolio:latest

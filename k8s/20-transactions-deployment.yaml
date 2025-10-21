@@ -15,8 +15,8 @@ spec:
       labels:
         app: transactions
     spec:
-      imagePullSecrets:
-        - name: ghcr-secret
+      # imagePullSecrets:
+      #   - name: ghcr-secret
       containers:
         - name: transactions
           image: ghcr.io/feranmi-a/module_6_part3-transactions:latest

@@ -15,8 +15,8 @@ spec:
       labels:
         app: nginx
     spec:
-      imagePullSecrets:
-        - name: ghcr-secret
+      # imagePullSecrets:
+      #   - name: ghcr-secret
       containers:
         - name: nginx
           image: nginx:alpine
