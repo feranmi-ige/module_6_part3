@@ -2,7 +2,7 @@
 
 This repo is structured as an **application repository** that builds container images and (optionally) updates a separate **GitOps repository** that Argo CD watches.
 # Module_6_Part3 — Production-Ready Kubernetes Manifests
-## What you get
+## What you get from all
 - Services: `backend` (Flask), `transactions` (Node), `studentportfolio` (Nginx static), `syncer` (Mongo sync).
 - Two independent MongoDBs: `mongo-backend` and `mongo-transactions` (on 4.4.18).
 - A `transactions-sync` deployment copies user-embedded transactions from backend DB to a flat `transactions` collection in the transactions DB every 60s.
